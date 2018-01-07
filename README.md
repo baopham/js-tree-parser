@@ -1,5 +1,8 @@
 # tree-parser
 
+[![npm version](https://badge.fury.io/js/%40baopham%2Ftree-parser.svg)](https://badge.fury.io/js/%40baopham%2Ftree-parser)
+[![NSP Status](https://nodesecurity.io/orgs/baopham/projects/2deea82f-4445-4ae5-b40f-d8c07e71022a/badge)](https://nodesecurity.io/orgs/baopham/projects/2deea82f-4445-4ae5-b40f-d8c07e71022a)
+
 Parse this:
 
 ```
