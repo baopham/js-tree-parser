@@ -1,0 +1,76 @@
+{
+  "name": "Root",
+  "isRoot": true,
+  "order": 0,
+  "level": 0,
+  "children": [
+    {
+      "name": "Level 1 - Order 1",
+      "isRoot": false,
+      "order": 1,
+      "level": 1,
+      "children": [
+        {
+          "name": "Level 2 - Order 2",
+          "isRoot": false,
+          "order": 2,
+          "level": 2,
+          "children": [
+            {
+              "name": "Level 3 - Order 3",
+              "isRoot": false,
+              "order": 3,
+              "level": 3,
+              "children": []
+            },
+            {
+              "name": "Level 3 - Order 4",
+              "isRoot": false,
+              "order": 4,
+              "level": 3,
+              "children": []
+            }
+          ]
+        },
+        {
+          "name": "Level 2 - Order 5",
+          "isRoot": false,
+          "order": 5,
+          "level": 2,
+          "children": []
+        }
+      ]
+    },
+    {
+      "name": "Level 1 - Order 6",
+      "isRoot": false,
+      "order": 6,
+      "level": 1,
+      "children": [
+        {
+          "name": "Level 2 - Order 7",
+          "isRoot": false,
+          "order": 7,
+          "level": 2,
+          "children": [
+            {
+              "name": "Level 3 - Order 8",
+              "isRoot": false,
+              "order": 8,
+              "level": 3,
+              "children": [
+                {
+                  "name": "Level 4 - Order 9",
+                  "isRoot": false,
+                  "order": 9,
+                  "level": 4,
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
