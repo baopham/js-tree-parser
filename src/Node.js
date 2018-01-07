@@ -25,6 +25,10 @@ export default class Node {
     return !!this.children && this.children.length > 0
   }
 
+  displayName(): string {
+    return this.name || '<empty node>'
+  }
+
   toJSON(): Object {
     return {
       name: this.name,

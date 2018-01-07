@@ -70,6 +70,8 @@ for (const child of root.children) {
 
 ### Advanced
 
+Get node by level and order:
+
 ```js
 import { Parser } from '@baopham/tree-parser';
 
@@ -85,9 +87,9 @@ const tree =
         |- Level 3 - Order 8
           |- Level 4 - Order 9`;
 
-const parser = new Parser($tree);
+const parser = new Parser(tree);
 
-parser->parse();
+parser.parse();
 
 const structure = parser.getStructure();
 
@@ -97,8 +99,29 @@ const level3Nodes = structure[3];
 const node = structure[3][4];
 
 // Get last leaf
-const orderedNodes = parser->getOrderedNodes();
-const lastLeaf = $orderedNodes[orderedNodes.length - 1];
+const orderedNodes = parser.getOrderedNodes();
+const lastLeaf = orderedNodes[orderedNodes.length - 1];
+```
+
+Reference another node:
+
+```js
+import { Parser } from '@baopham/tree-parser';
+
+const tree =
+`  Root
+    |- Level 1 - Order 1
+      |- [Ref:Root > Level 1 - Order 3 > Level 2 - Order 4 > Level 3 - Order 5 > Level 4 - Order 6]
+    |- Level 1 - Order 3
+      |- Level 2 - Order 4
+        |- Level 3 - Order 5
+          |- Level 4 - Order 6`;
+
+const parser = Parser.new(tree);
+
+parser.parse();
+
+expect(parser.orderedNodes[2].referenced).toBe(parser.orderedNodes[6]);
 ```
 
 

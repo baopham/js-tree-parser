@@ -1,24 +1,31 @@
 // @flow
 import Node, { ROOT_ORDER, ROOT_LEVEL } from './Node'
+import ReferenceNode from './ReferenceNode'
 
 const EOL = /\r\n|\r|\n/g
+
+type Level = number
+type Order = number
 
 class ParserError extends Error {
   constructor(message: string) {
     super(message)
+    this.message = message
     this.name = this.constructor.name
   }
 }
 
-class InvalidNumberOfSpaces extends ParserError {}
+export class InvalidNumberOfSpaces extends ParserError {}
 
-class OrphanNode extends ParserError {}
+export class OrphanNode extends ParserError {}
+
+export class NodeReferenceError extends ParserError {}
 
 export default class Parser {
   indentation: number
   tree: string
   initialSpaces: ?number
-  structure: Object
+  structure: { [Level]: { [Order]: Node } }
   orderedNodes: Array<Node>
 
   /**
@@ -56,13 +63,15 @@ export default class Parser {
       const parent = this.getParentForNode(node)
 
       if (!parent) {
-        throw new OrphanNode(`${node.name || '<empty node>'} has no parent`)
+        throw new OrphanNode(`${node.displayName()} has no parent`)
       }
 
       parent.children.push(node)
 
       node.parent = parent
     }
+
+    this.setReferencedNodes()
 
     return root
   }
@@ -85,7 +94,7 @@ export default class Parser {
     this.initialSpaces = null
     this.structure = {}
 
-    lines.forEach((line, order) => {
+    lines.forEach((line: string, order: Order) => {
       const node = this.lineToNode(line)
 
       if (this.initialSpaces === null) {
@@ -93,8 +102,8 @@ export default class Parser {
         node.isRoot = true
       }
 
-      node.order = order
       node.level = this.spacesToLevel(this.numberOfSpaces(line))
+      node.order = order
 
       if (!this.structure[node.level]) {
         this.structure[node.level] = {}
@@ -106,8 +115,11 @@ export default class Parser {
   }
 
   lineToNode(line: string): Node {
-    const node = new Node()
-    node.name = line.replace('|-', '').trim()
+    const name = line.replace('|-', '').trim()
+    const node = ReferenceNode.isReferenceNode(name)
+      ? new ReferenceNode()
+      : new Node()
+    node.name = name
     return node
   }
 
@@ -115,7 +127,7 @@ export default class Parser {
     return Math.max(line.search(/\S/), 0)
   }
 
-  spacesToLevel(numberOfSpaces: number): number {
+  spacesToLevel(numberOfSpaces: number): Level {
     if (typeof this.initialSpaces !== 'number') {
       throw new Error('No initial spaces')
     }
@@ -156,5 +168,47 @@ export default class Parser {
       }
       --order
     }
+  }
+
+  setReferencedNodes() {
+    for (const node of this.orderedNodes) {
+      if (!(node instanceof ReferenceNode)) continue
+      node.referenced = this.findReferencedNode(node)
+    }
+  }
+
+  findReferencedNode(reference: ReferenceNode): Node {
+    const pathMatcher = path => node => node.name === path
+    const [rootPath, ...paths] = reference.getReferencePaths()
+
+    let root = this.structure[ROOT_LEVEL][ROOT_ORDER]
+    let node: ?Node
+
+    if (!root || root.name !== rootPath) {
+      throw new NodeReferenceError(
+        `Invalid node reference ${reference.displayName()}. The first path should reference the root of the tree`
+      )
+    }
+
+    for (const path of paths) {
+      if (!root) {
+        throw new NodeReferenceError(
+          `Cannot find node for "${path}" reference. Typo?`
+        )
+      }
+
+      const matcher = pathMatcher(path)
+      // $FlowFixMe
+      node = root.children.find(matcher)
+      root = node
+    }
+
+    if (!node) {
+      throw new NodeReferenceError(
+        `Cannot find the referenced node "${reference.displayName()}"`
+      )
+    }
+
+    return node
   }
 }

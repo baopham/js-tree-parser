@@ -4,7 +4,7 @@
   "description": "Parse tree in text format",
   "main": "lib/index.js",
   "scripts": {
-    "test": "npm run lint && jest",
+    "test": "npm run lint && jest --",
     "build": "babel src/ -d lib/ --ignore src/__tests__",
     "lint": "eslint ./src/**/*.js",
     "prettier": "prettier --write --single-quote --no-semi './src/**/*.{js,json,css}'",
