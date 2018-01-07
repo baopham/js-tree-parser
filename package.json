@@ -12,6 +12,12 @@
     "flow": "flow",
     "precommit": "lint-staged"
   },
+  "lint-staged": {
+    "*.js": [
+      "npm run prettier",
+      "git add"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/baopham/js-tree-parser.git"
