@@ -1,11 +1,11 @@
-import path from 'path'
-import fs from 'fs'
-import Parser, { InvalidNumberOfSpaces } from '../Parser'
+import path from 'path';
+import fs from 'fs';
+import Parser, { InvalidNumberOfSpaces } from '../Parser';
 
 function getFixture(name) {
   return fs.readFileSync(path.join(__dirname, 'fixtures', name), {
     encoding: 'utf8'
-  })
+  });
 }
 
 describe('Parser', () => {
@@ -23,12 +23,12 @@ describe('Parser', () => {
         |- Level 3 - Order 8
           |- Level 4 - Order 9`
 
-    const root = Parser.new(tree).parse()
+    const root = Parser.new(tree).parse();
 
-    const expected = getFixture('expected_parsed_tree.json')
+    const expected = getFixture('expected_parsed_tree.json');
 
-    expect(JSON.parse(JSON.stringify(root))).toEqual(JSON.parse(expected))
-  })
+    expect(JSON.parse(JSON.stringify(root))).toEqual(JSON.parse(expected));
+  });
 
   it('should parse tree with custom indentation', () => {
     // prettier-ignore
@@ -46,12 +46,12 @@ describe('Parser', () => {
 
     const root = Parser.new(tree)
       .setIndentation(4)
-      .parse()
+      .parse();
 
-    const expected = getFixture('expected_parsed_tree.json')
+    const expected = getFixture('expected_parsed_tree.json');
 
-    expect(JSON.parse(JSON.stringify(root))).toEqual(JSON.parse(expected))
-  })
+    expect(JSON.parse(JSON.stringify(root))).toEqual(JSON.parse(expected));
+  });
 
   it('should validate correct indentation', () => {
     // prettier-ignore
@@ -60,9 +60,9 @@ describe('Parser', () => {
        |- Level 1 - Order 1`;
 
     expect(() => {
-      Parser.new(tree).parse()
-    }).toThrowError(InvalidNumberOfSpaces)
-  })
+      Parser.new(tree).parse();
+    }).toThrowError(InvalidNumberOfSpaces);
+  });
 
   it('should be able to reference another node', () => {
     // prettier-ignore
@@ -75,8 +75,8 @@ describe('Parser', () => {
         |- Level 3 - Order 5
           |- Level 4 - Order 6`
 
-    const parser = Parser.new(tree)
-    parser.parse()
-    expect(parser.orderedNodes[2].referenced).toBe(parser.orderedNodes[6])
-  })
-})
+    const parser = Parser.new(tree);
+    parser.parse();
+    expect(parser.orderedNodes[2].referenced).toBe(parser.orderedNodes[6]);
+  });
+});

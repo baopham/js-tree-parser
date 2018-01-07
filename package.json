@@ -7,7 +7,7 @@
     "test": "npm run lint && jest --",
     "build": "babel src/ -d lib/ --ignore src/__tests__",
     "lint": "eslint ./src/**/*.js",
-    "prettier": "prettier --write --single-quote --no-semi './src/**/*.{js,json,css}'",
+    "prettier": "prettier --write --single-quote './src/**/*.{js,json,css}'",
     "preversion": "npm test && npm run build && git add -f lib",
     "flow": "flow",
     "precommit": "lint-staged"
