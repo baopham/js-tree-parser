@@ -1,0 +1,46 @@
+{
+  "name": "@baopham/tree-parser",
+  "version": "1.0.0",
+  "description": "Parse tree in text format",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src/ -d lib/",
+    "lint": "eslint ./src/**/*.js",
+    "prettier": "prettier --write --single-quote ./src/**/*.js",
+    "preversion": "npm test && npm run build && git add -f lib",
+    "flow": "flow",
+    "precommit": "lint-staged"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/baopham/js-tree-parser.git"
+  },
+  "keywords": [
+    "tree",
+    "parser",
+    "decision",
+    "tree"
+  ],
+  "author": "Bao Pham <gbaopham@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/baopham/js-tree-parser/issues"
+  },
+  "homepage": "https://github.com/baopham/js-tree-parser#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.0.0-beta.36",
+    "@babel/core": "^7.0.0-beta.36",
+    "@babel/preset-env": "^7.0.0-beta.36",
+    "@babel/preset-flow": "^7.0.0-beta.36",
+    "babel-eslint": "^8.1.2",
+    "eslint": "^4.15.0",
+    "eslint-config-pretty-standard": "^1.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "flow-bin": "^0.63.1",
+    "husky": "^0.14.3",
+    "jest": "^22.0.4",
+    "lint-staged": "^6.0.0",
+    "prettier": "^1.9.2"
+  }
+}
