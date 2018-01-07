@@ -1,6 +1,6 @@
 {
   "name": "@baopham/tree-parser",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Parse tree in text format",
   "main": "lib/index.js",
   "scripts": {
